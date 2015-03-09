@@ -1,4 +1,5 @@
-##
+## Script to merge and summarize the Human Activity Recognition Using Smartphones Data Set 
+
 
 ## BEGIN STEP 1
 ## We unzip the files to a temporary directory
@@ -85,6 +86,8 @@ colnames(friendlyset) <- c("IDActivity", "ActivityDescription", "IDSubject",
 finalset <- ddply(friendlyset, .(ActivityDescription, IDSubject), numcolwise(mean))
 finalvarnames <- paste( "MEAN", colnames(finalset)[4:82], sep ="")
 colnames(finalset) <- c("ActivityDescription", "IDSubject", "IDActivity", finalvarnames)
+## Remove redundant column to keep data tidy
+finalset <- select(finalset, -IDActivity)
 
 setwd("../..")
 write.table(finalset, file="finaltidy.txt", row.names = FALSE)
