@@ -70,12 +70,25 @@ extractedset = fullset[, c("IDSubject", "IDActivity",relevantcolumns)]
 ## END OF STEP 2
 
 ## STEP 3
-## Attach friendly activity names now ....
-
-
+## Attach friendly activity labels now ....
+library(plyr)
+friendlyset <- join(activitylabels, extractedset, type="right")
+## END OF STEP 3
 
 ## STEP 4
 ## Use friendlier column names instead of ids for this extracted set:
-colnames(extractedset) <- c("IDSubject","IDActivity", featurenames[meansandstds,2])
+colnames(friendlyset) <- c("IDActivity", "ActivityDescription", "IDSubject", 
+                           make.names(featurenames[meansandstds,2]))
+## END OF STEP 4
+
+## STEP 5
+finalset <- ddply(friendlyset, .(ActivityDescription, IDSubject), numcolwise(mean))
+finalvarnames <- paste( "MEAN", colnames(finalset)[4:82], sep ="")
+colnames(finalset) <- c("ActivityDescription", "IDSubject", "IDActivity", finalvarnames)
+
+setwd("../..")
+write.table(finalset, file="finaltidy.txt", row.names = FALSE)
+## END OF STEP 5
 
 ## Clean up after ourselves
+unlink("TMPDATA", recursive = TRUE)
