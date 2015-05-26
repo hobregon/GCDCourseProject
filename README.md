@@ -1,3 +1,9 @@
+NOTE TO REVIEWERS:
+
+I originally enrolled in the March course but forgot to submit on time.
+Thus, I had to retake the course in May. That is why you will find my last commit for the code last March.
+Thank you!
+
 # GCDCourseProject
 Course project for the getting and cleaning data Coursera course.
 
